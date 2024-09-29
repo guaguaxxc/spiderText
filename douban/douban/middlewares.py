@@ -2,11 +2,19 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
+from dns.rcode import NOERROR
 from scrapy import signals
-
+import random
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
+from douban.settings import USER_AGENT_LIST, USER_AGENT
+
+
+class RandomUserAgent:
+    def process_request(self, request, spider):
+        ua = random.choice(USER_AGENT_LIST)
+        request.headers["USER_AGENT"] = ua
+        return None
 
 
 class DoubanSpiderMiddleware:
@@ -61,14 +69,8 @@ class DoubanDownloaderMiddleware:
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
 
-    @classmethod
-    def from_crawler(cls, crawler):
-        # This method is used by Scrapy to create your spiders.
-        s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-        return s
-
     def process_request(self, request, spider):
+        print("process_request被调用")
         # Called for each request that goes through the downloader
         # middleware.
 
@@ -82,6 +84,7 @@ class DoubanDownloaderMiddleware:
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
+        print("process_response被调用")
 
         # Must either;
         # - return a Response object
@@ -90,6 +93,7 @@ class DoubanDownloaderMiddleware:
         return response
 
     def process_exception(self, request, exception, spider):
+        print("process_exception被调用")
         # Called when a download handler or a process_request()
         # (from other downloader middleware) raises an exception.
 
@@ -98,6 +102,3 @@ class DoubanDownloaderMiddleware:
         # - return a Response object: stops process_exception() chain
         # - return a Request object: stops process_exception() chain
         pass
-
-    def spider_opened(self, spider):
-        spider.logger.info("Spider opened: %s" % spider.name)
