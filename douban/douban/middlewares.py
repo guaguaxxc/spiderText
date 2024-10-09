@@ -7,7 +7,7 @@ from scrapy import signals
 import random
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
-from douban.settings import USER_AGENT_LIST, USER_AGENT
+from settings import USER_AGENT_LIST
 
 
 class RandomUserAgent:
