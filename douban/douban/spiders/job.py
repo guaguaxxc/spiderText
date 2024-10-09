@@ -1,12 +1,8 @@
 from gc import callbacks
-
 import scrapy
-
 # 导入建模
 from douban.items import DoubanItem
 from twisted.spread.pb import respond
-
-
 class JobSpider(scrapy.Spider):
     name = "job"
     allowed_domains = ["movie.douban.com"]
@@ -23,7 +19,6 @@ class JobSpider(scrapy.Spider):
             item["star"] = video.xpath('./div/div[2]/div[2]/div/span[2]/text()').extract_first()
             item["reviews"] = video.xpath('./div/div[2]/div[2]/div/span[4]/text()').extract_first()
             yield item
-
         # 翻页
         partUrl = response.xpath('//*[@id="content"]/div/div[1]/div[2]/span[3]/a/@href').extract_first()
         if partUrl != None:
