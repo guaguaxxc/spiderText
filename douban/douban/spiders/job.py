@@ -1,4 +1,4 @@
-from gc import callbacks
+
 import scrapy
 # 导入建模
 from douban.items import DoubanItem
