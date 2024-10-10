@@ -11,6 +11,7 @@ class WeatherItem(scrapy.Item):
     # name = scrapy.Field()
     city = scrapy.Field()
     cityLink = scrapy.Field()
+    date = scrapy.Field()
     dayTemperature = scrapy.Field()
     nightTemperature = scrapy.Field()
     dayWeather = scrapy.Field()

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import scrapy
 
 from Weather.items import WeatherItem
@@ -25,6 +27,7 @@ class TianqiSpider(scrapy.Spider):
     def parse_day(self, response):
         temp = response.meta['weather']
         day = response.xpath('//*[@id="day7"]/div[1]')
+        temp['date'] = datetime.today()
         temp['dayTemperature'] = day.xpath('./div/div[6]/text()').extract_first()
         temp['nightTemperature'] = day.xpath('./div/div[7]/text()').extract_first()
         temp['dayWeather'] = day.xpath('./div/div[3]/text()').extract_first()
